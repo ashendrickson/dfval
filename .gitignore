@@ -12,3 +12,6 @@ db_config.yaml
 
 #ignore pyc files
 *.pyc
+
+#ignore .git files
+**/.git

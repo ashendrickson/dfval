@@ -28,12 +28,12 @@ class TestCompare(unittest.TestCase):
 
     def test_compare_dim_qty_match(self):
         # call compare passing the x dataframe, y dataframe, key, quantity field name, and optionally decimal rounding and threshold for quantity comparison
-        c = compare(self.dfx_qty, self.dfy_qty_match, self.k, self.qty_f, dec_rnd = 6, thrshld = 0.01)
+        c = compare(self.dfx_qty, self.dfy_qty_match, self.k, self.qty_f, decimal_round = 6, threshold = 0.01)
         self.assertEqual(len(c.exceptions.index), 0)
 
     def test_compare_dim_qty_diff(self):
         # call compare passing the x dataframe, y dataframe, key, quantity field name, and optionally decimal rounding and threshold for quantity comparison
-        c = compare(self.dfx_qty, self.dfy_qty_diff, self.k, self.qty_f, dec_rnd = 6, thrshld = 0.01)
+        c = compare(self.dfx_qty, self.dfy_qty_diff, self.k, self.qty_f, decimal_round = 6, threshold = 0.01)
         self.assertEqual(len(c.exceptions.index), 2)
 
     def test_compare_dim_match(self):
@@ -48,12 +48,12 @@ class TestCompare(unittest.TestCase):
 
     def test_compare_qty_keep(self):
         # call compare passing the x dataframe, y dataframe, key, quantity field name, and optionally decimal rounding and threshold for quantity comparison
-        c = compare(self.dfx_qty, self.dfy_qty_diff, self.k, self.qty_f, keep_comparison = True, dec_rnd = 6, thrshld = 0.01)
+        c = compare(self.dfx_qty, self.dfy_qty_diff, self.k, self.qty_f, keep_comparison = True, decimal_round = 6, threshold = 0.01)
         self.assertEqual(len(c.comparison.index), 4)
 
     def test_compare_dim_keep(self):
         # call compare passing the x dataframe, y dataframe, key, quantity field name, and optionally decimal rounding and threshold for quantity comparison
-        c = compare(self.dfx_dim, self.dfy_dim_diff, self.k, keep_comparison = True, dec_rnd = 6, thrshld = 0.01)
+        c = compare(self.dfx_dim, self.dfy_dim_diff, self.k, keep_comparison = True, decimal_round = 6, threshold = 0.01)
         self.assertEqual(len(c.comparison.index), 5)
 
 if __name__ == '__main__':

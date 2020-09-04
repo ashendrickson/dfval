@@ -11,7 +11,7 @@ class Comparison():
         self.results = None
         self.comparison = None
 
-    def compare(self, x, y, k, qty_n = [], keep_comparison = False, dec_rnd = 8, thrshld = 0):
+    def compare(self, x, y, k, qty_n = [], keep_comparison = False, decimal_round = 8, threshold = 0):
         """compares data of the two dataframes based on a common key
         Parameters:
           x (pandas dataframe): a pandas dataframe
@@ -19,8 +19,8 @@ class Comparison():
           k (list): list of names in the key
           qty_n (list): list of quantities field names for comparison (optional)
           keep_comparison (bool): indicates if the entire comparison should be retained (the "full outer join" vs just exceptions)
-          dec_rnd (int): the number of decimal places to round the quantity fields before comparison
-          thrshld (float): a threshold for determining if a quantity difference should be considered an exception
+          decimal_round (int): the number of decimal places to round the quantity fields before comparison
+          threshold (float): a threshold for determining if a quantity difference should be considered an exception
         Returns (via _exceptions_identifier() decribed below):
           Sets the object instance's exceptions parameter to a dataframe of exceptions found during the comparison
           Sets the object instance's results parameter to a dataframe with records counts for the result of the comparison
@@ -59,18 +59,18 @@ class Comparison():
 
             #compare quantity
             if qty_n != []:
-                z = self._qty_compare(z, qty_n, dec_rnd, thrshld)
+                z = self._qty_compare(z, qty_n, decimal_round, threshold)
 
             self._exceptions_identifier(x, y, z, qty_n, keep_comparison)
 
-    def _qty_compare(self, df, qty_n, dec_rnd, thrshld):
+    def _qty_compare(self, df, qty_n, decimal_round, threshold):
         """compares the quantites in a dataframe
         Parameters:
           df (pandas dataframe): a pandas dataframe with quantity fields for comparison
           qtn_n (list): list of quantity field(s) for comparison
             (needs to be the name of the common quantity field between two dataframes that were merged)
-          dec_rnd (int): the number of decimal places to round the quantity fields before comparison
-          thrshld (float): a threshold for determining if a quantity difference should be considered an exception
+          decimal_round (int): the number of decimal places to round the quantity fields before comparison
+          threshold (float): a threshold for determining if a quantity difference should be considered an exception
         Returns:
           df (pandas dataframe): a pandas dataframe that includes a field for each quantity comparison
         """
@@ -80,15 +80,15 @@ class Comparison():
         for i in qty_n:
             # round the quantity fields by the passed in value
             # quantity field names are the value from the passed in quantity field list (i in qty_n) plus either underscore x or y
-            df[i + '_x'] = df[i + '_x'].round(dec_rnd)
-            df[i + '_y'] = df[i + '_y'].round(dec_rnd)
+            df[i + '_x'] = df[i + '_x'].round(decimal_round)
+            df[i + '_y'] = df[i + '_y'].round(decimal_round)
 
             # create a field to calculate the difference between the x and y quantities
             # field name is 'diff_' plus name of the quantity field
             df['diff_' + i] = (df[i + '_x'] - df[i + '_y'])
 
             # determine if the differences is greater than the threshold: 1 if Yes, 0 if No
-            df['diff_test'] = np.where(abs(df['diff_' + i]) > abs(thrshld), 1, 0)
+            df['diff_test'] = np.where(abs(df['diff_' + i]) > abs(threshold), 1, 0)
 
             # update the difference counter with the difference comparison to threshold result
             df['diff_counter'] = df['diff_counter'] + df['diff_test']

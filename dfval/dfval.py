@@ -2,7 +2,7 @@ from .dfcompare import dfcompare
 from .dfclean import dfclean
 from .dfcheck import dfcheck
 
-def compare(x, y, k, qty_n = [], keep_comparison = False, dec_rnd = 8, thrshld = 0):
+def compare(x, y, k, qty_n = [], keep_comparison = False, decimal_round = 8, threshold = 0):
     """compares data of the two dataframes based on a common key by creating a Comarison object from dfcompare
     Parameters:
       x (pandas dataframe): a pandas dataframe
@@ -11,7 +11,7 @@ def compare(x, y, k, qty_n = [], keep_comparison = False, dec_rnd = 8, thrshld =
       qty_n (list): list of quantities field names for comparison (optional)
       keep_comparison (bool): indicates if the entire comparison should be retained (the "full outer join" vs just exceptions)
       dec_rnd (int): the number of decimal places to round the quantity fields before comparison
-      thrshld (float): a threshold for determining if a quantity difference should be considered an exception
+      threshold (float): a threshold for determining if a quantity difference should be considered an exception
     Returns:
       c (Comarpison object): an instance of the Comarison object with the following parameters:
         Sets the object instance's exceptions parameter to a dataframe of exceptions found during the comparison
@@ -21,7 +21,7 @@ def compare(x, y, k, qty_n = [], keep_comparison = False, dec_rnd = 8, thrshld =
           If that fails, a message is printed and the parameters are not set/reset.
     """
     c = dfcompare.Comparison()
-    c.compare(x, y, k, qty_n, keep_comparison, dec_rnd, thrshld)
+    c.compare(x, y, k, qty_n, keep_comparison, decimal_round, threshold)
     return c
 
 def na_clean(df, qty_n):
