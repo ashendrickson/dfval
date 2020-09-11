@@ -13,16 +13,16 @@ import pandas as pd
 
 **2. Create two dataframes (x and y)**
 ```
-dx = [[3, '2019-12-15', 100, 2], [3, '2019-12-22', 200, 3], [3, '2019-12-29', 500, 4], [3, '2019-12-08', 75, 3]]
-dfx = pd.DataFrame(dx, columns = ['co_loc_ref_i', 'wk_beg_d', 'qty_sum', 'qty_ct'])
+dx = [[5000, '2019-12-15', 100, 2], [5000, '2019-12-22', 200, 3], [5000, '2019-12-29', 500, 4], [5000, '2019-12-08', 75, 3]]
+dfx = pd.DataFrame(dx, columns = ['loc_id', 'greg_d', 'qty_sum', 'qty_ct'])
 
-dy = [[3, '2019-12-15', 100.000001, 2], [3, '2019-12-22', 190, 3], [3, '2019-12-29', 500, 4], [3, '2019-12-01', 75, 3]]
-dfy = pd.DataFrame(dy, columns = ['co_loc_ref_i', 'wk_beg_d', 'qty_sum', 'qty_ct'])
+dy = [[5000, '2019-12-15', 100.000001, 2], [5000, '2019-12-22', 190, 3], [5000, '2019-12-29', 500, 4], [5000, '2019-12-01', 75, 3]]
+dfy = pd.DataFrame(dy, columns = ['loc_id', 'greg_d', 'qty_sum', 'qty_ct'])
 ```
 
 **3. Define the key and quantity fields for comparison**
 ```
-k = ['co_loc_ref_i', 'wk_beg_d']
+k = ['loc_id', 'greg_d']
 
 qty_f = ['qty_sum', 'qty_ct']
 ```
@@ -30,7 +30,7 @@ qty_f = ['qty_sum', 'qty_ct']
 **4. Call `compare()`**
 ```
 # call compare passing the x dataframe, y dataframe, key, the quantity field name, and optionally the keep_comparison (True or False), decimal rounding, and threshold for quantity comparison
-c = dv.compare(dfx, dfy, k, qty_f, keep_comparison = True, dec_rnd = 4, thrshld = 0.01)
+c = dv.compare(dfx, dfy, k, qty_f, keep_comparison = True, decimal_round = 4, threshold = 0.01)
 ```
 
 **5. Contents of `c.results`**
@@ -41,25 +41,25 @@ True | 4 | 4 | 5 | 2 | 1 | 1 | 1 | 3
 
 **6. Contents of `c.exceptions`**
 
-co_loc_ref_i | wk_beg_d | qty_sum_x | qty_ct_x | qty_sum_y | qty_ct_y | diff_qty_sum | diff_qty_ct | exception_type
+loc_id | greg_d | qty_sum_x | qty_ct_x | qty_sum_y | qty_ct_y | diff_qty_sum | diff_qty_ct | exception_type
 -------------|----------|-----------|----------|-----------|----------|--------------|-------------|----------------
-3 | 2019-12-22 | 200.0 | 3.0 | 190.0 | 3.0 | 10.0 | 0.0 | diff_qty
-3 | 2019-12-08 | 75.0 | 3.0 | NaN | NaN | NaN | NaN | not_in_y
-3 | 2019-12-01 | NaN | NaN | 75.0 | 3.0 | NaN | NaN | not_in_x
+5000 | 2019-12-22 | 200.0 | 3.0 | 190.0 | 3.0 | 10.0 | 0.0 | diff_qty
+5000 | 2019-12-08 | 75.0 | 3.0 | NaN | NaN | NaN | NaN | not_in_y
+5000 | 2019-12-01 | NaN | NaN | 75.0 | 3.0 | NaN | NaN | not_in_x
 
 **7. Contents of `c.comparison`**
 
-co_loc_ref_i | wk_beg_d | qty_sum_x | qty_ct_x | qty_sum_y | qty_ct_y | diff_qty_sum | diff_qty_ct | exception_type
+loc_id | greg_d | qty_sum_x | qty_ct_x | qty_sum_y | qty_ct_y | diff_qty_sum | diff_qty_ct | exception_type
 -------------|----------|-----------|----------|-----------|----------|--------------|-------------|----------------
-3	| 2019-12-15	| 100.0 |	2.0 |	100.0 |	2.0 |	0.0 |	0.0	| match
-3 | 2019-12-22 | 200.0 | 3.0 | 190.0 | 3.0 | 10.0 | 0.0 | diff_qty
-3	| 2019-12-29	| 500.0	| 4.0	| 500.0	| 4.0	| 0.0	| 0.0	| match
-3 | 2019-12-08 | 75.0 | 3.0 | NaN | NaN | NaN | NaN | not_in_y
-3 | 2019-12-01 | NaN | NaN | 75.0 | 3.0 | | NaN | NaN | not_in_x
+5000	| 2019-12-15	| 100.0 |	2.0 |	100.0 |	2.0 |	0.0 |	0.0	| match
+5000 | 2019-12-22 | 200.0 | 3.0 | 190.0 | 3.0 | 10.0 | 0.0 | diff_qty
+5000	| 2019-12-29	| 500.0	| 4.0	| 500.0	| 4.0	| 0.0	| 0.0	| match
+5000 | 2019-12-08 | 75.0 | 3.0 | NaN | NaN | NaN | NaN | not_in_y
+5000 | 2019-12-01 | NaN | NaN | 75.0 | 3.0 | | NaN | NaN | not_in_x
 
 
 ## `compare()` detail
-`compare()` can be used to compare dimensions in two dataframes or dimensions and quantity values. To compare dimensions only, leave out the `qty_n`, `dec_rnd`, and `thrshld` parameters listed below.
+`compare()` can be used to compare dimensions in two dataframes or dimensions and quantity values. To compare dimensions only, leave out the `qty_n`, `decimal_round`, and `threshold` parameters listed below.
 
 ### Input
 
@@ -73,8 +73,8 @@ co_loc_ref_i | wk_beg_d | qty_sum_x | qty_ct_x | qty_sum_y | qty_ct_y | diff_qty
   * `qty_n`: a list of the quantity field(s) to compare
     * **Note:** if the `qty_n` is not passed, `compare()` will do a comparison of the dimensions (`k`) only
   * `keep_comparison`: retains all the records of the comparison in results comparison dataframe
-  * `dec_rnd`: number of digits to round the quantity fields in the comparison (fields listed in `qty_n`)
-  * `thrshld`: a threshold for what should be considered an exception in the quantity comparison
+  * `decimal_round`: number of digits to round the quantity fields in the comparison (fields listed in `qty_n`)
+  * `threshold`: a threshold for what should be considered an exception in the quantity comparison
 
 ### Output
 
@@ -94,7 +94,7 @@ co_loc_ref_i | wk_beg_d | qty_sum_x | qty_ct_x | qty_sum_y | qty_ct_y | diff_qty
 
 **Notes:**
 * `compare()` first checks the x and y DataFrames to make sure both have all columns defined in the passed in key and quantity field(s). If one or more columns is missing in either DataFrame, a message prints ("column name check failed") and the comparison is not run. `exceptions` and `results` will be `None`.
-* `NaN` values in the quatity fields in the x and y datasets are converted to zero. If this happens, a message is printed
+* `NaN` values in the quantity fields in the x and y datasets are converted to zero. If this happens, a message is printed
 * `compare()` checks for duplicate keys and prints a message if duplicates are found. The comparison continues to run and creates results. However, the results may be be what is expected. It is better to handle duplicates in the key prior to using `compare()`.
 * The result of the record count check prints if the result is `FALSE`:
   * "Record counts for same, diff, and in one but not other DO NOT match"

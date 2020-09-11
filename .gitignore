@@ -15,3 +15,8 @@ db_config.yaml
 
 #ignore .git files
 **/.git
+
+#ignore PyPI directories
+/build
+/dfval.egg-info
+/dist
