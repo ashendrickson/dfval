@@ -2,7 +2,12 @@
 
 `dfval` can be used to compare two dataframes and identify differences between the dataframes. It also has methods to validate attributes or update dataframes.
 
-Below is example creates two small dataframes and does a comparison using `dfval` as well as more detail on how to use `dfval`.
+Below shows how to install `dfval`, an example creates two small dataframes and does a comparison using `dfval`, and more detail on how to use `dfval`.
+
+## Install
+```
+pip install dfval
+```
 
 ## Example of `compare()`
 **1. Import dfval and pandas**
